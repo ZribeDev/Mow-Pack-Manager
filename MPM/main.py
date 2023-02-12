@@ -5,7 +5,7 @@ import os
 import requests
 
 servers = {
-    "github": "https://github.com/ZribeDev/Mow-Pack-Manager/blob/master/mpm_repositories/"
+    "github": "https://raw.githubusercontent.com/ZribeDev/Mow-Pack-Manager/master/mpm_repositories/"
 }
 rep_server = servers["github"]
 
@@ -13,8 +13,18 @@ rep_server = servers["github"]
 def mpm_install(package):
     raw = requests.get(rep_server + package + ".rep")
     rawtext = raw.text
-    print(rawtext)
-    return
+    if rep_server == servers["github"]:
+        if (rawtext == "404: Not Found"):
+            data = {
+                "code":404,
+                "message":rawtext
+            }
+            return data
+    data = {
+        "code":200,
+        "message":rawtext
+    }
+    return data
 args = []
 
 for arg in sys.argv:
@@ -35,4 +45,4 @@ if args[0] == "install" or args[0] == "-i":
     if len(args) == 1:
         print("Incorrect Arguments! use -h to get help!")
         sys.exit()
-    mpm_install(args[1])
+    print(mpm_install(args[1])["code"])
