@@ -2,9 +2,18 @@
 
 import sys
 import os
+import requests
+
+servers = {
+    "github": "https://github.com/ZribeDev/Mow-Pack-Manager/blob/master/mpm_repositories/"
+}
+rep_server = servers["github"]
+
 
 def mpm_install(package):
-    print(package)
+    raw = requests.get(rep_server + package + ".rep")
+    rawtext = raw.text
+    print(rawtext)
     return
 args = []
 
